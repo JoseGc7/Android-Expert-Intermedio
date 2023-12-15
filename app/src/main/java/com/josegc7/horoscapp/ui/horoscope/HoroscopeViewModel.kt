@@ -1,6 +1,7 @@
 package com.josegc7.horoscapp.ui.horoscope
 
 import androidx.lifecycle.ViewModel
+import com.josegc7.horoscapp.data.provider.HoroscopeProvider
 import com.josegc7.horoscapp.domain.model.HoroscopeInfo
 import com.josegc7.horoscapp.domain.model.HoroscopeInfo.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,15 +10,12 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class HoroscopeViewModel @Inject constructor():ViewModel(){
+class HoroscopeViewModel @Inject constructor(private val horoscopeProvider: HoroscopeProvider):ViewModel(){
 
     private var _horoscope = MutableStateFlow<List<HoroscopeInfo>>(emptyList())
     val horoscope:StateFlow<List<HoroscopeInfo>> = _horoscope
 
     init {
-        _horoscope.value = listOf(
-            Aries, Taurus, Gemini,
-            Cancer, Leo, Virgo,
-        )
+        _horoscope.value = horoscopeProvider.getHoroscopes()
     }
 }
